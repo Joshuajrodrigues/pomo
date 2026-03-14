@@ -2,6 +2,8 @@
 
 A minimal TUI pomodoro timer built with Rust, made for focus.
 
+![ss](https://github.com/user-attachments/assets/575e2cc2-f406-41d4-aa8d-cc5b9e5a2d23)
+
 ## Features
 
 - 25/5/15 minute work and break cycles
