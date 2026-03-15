@@ -65,6 +65,12 @@ impl PomodoroTimer {
     pub fn toggle_paused(&mut self) {
         std::thread::spawn(|| play_notes(NOTES_PAUSE));
         self.is_paused = !self.is_paused;
+
+        // Reset the internal tick timer when we resume so it doesn't immediately
+        // decrement if the pause duration exceeded 1 second.
+        if !self.is_paused {
+            self.time_running = Instant::now();
+        }
     }
 
     pub fn get_next_mode(&self) -> PomodoroMode {

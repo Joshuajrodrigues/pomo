@@ -8,7 +8,7 @@ use std::{
 };
 
 use crossterm::{
-    event::{poll, Event, KeyCode},
+    event::{poll, Event, KeyCode, KeyEventKind},
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
     ExecutableCommand,
 };
@@ -38,6 +38,12 @@ fn main() -> io::Result<()> {
 
         if poll(Duration::from_millis(16))? {
             if let Event::Key(key) = crossterm::event::read()? {
+                // Ignore repeated key events to prevent toggling pause/resume multiple times
+                // from a single physical key press.
+                if key.kind != KeyEventKind::Press {
+                    continue;
+                }
+
                 if key.code == KeyCode::Char('q') {
                     play_notes(NOTES_QUIT);
                     break;
